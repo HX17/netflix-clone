@@ -23,6 +23,7 @@ const Faqs = () => {
           Ready to watch Netflix? Enter you email to create or restart your
           membership.
         </OptForm.Text>
+        <OptForm.Break />
         <OptForm.Input placeholder="Email address" />
         <OptForm.Button>GET STARTED</OptForm.Button>
       </OptForm>

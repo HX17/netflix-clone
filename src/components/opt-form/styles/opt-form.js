@@ -67,3 +67,11 @@ export const Button = styled.button`
     font-weight: bold;
   }
 `;
+
+// set initial value of a flex item (break) to 100%
+export const Break = styled.p`
+  margin-block-start: 1px;
+  margin-block-end: 1px;
+  flex-basis: 100%;
+  height: 0;
+`;
