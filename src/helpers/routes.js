@@ -25,7 +25,6 @@ export const Protect = ({ user, children, ...rest }) => {
     <Route
       {...rest}
       render={({ location }) => {
-        console.log(location);
         if (!user)
           return <Redirect to={{ pathname: "signin", state: location }} />;
         if (user) return children;

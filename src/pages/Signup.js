@@ -10,7 +10,6 @@ import * as ROUTES from "../constants/routes";
 const Signup = ({ history }) => {
   const { firebase } = useContext(FirebaseContext);
   // const history = useHistory();
-  console.log(firebase);
 
   const [firstname, setFirstname] = useState("");
   const [email, setEmail] = useState("");
@@ -31,10 +30,11 @@ const Signup = ({ history }) => {
       .then((result) => {
         result.user
           .updateProfile({
-            diplayName: firstname,
+            displayName: firstname,
             photoURL: Math.floor(Math.random() * 5) + 1,
           })
           .then(() => {
+            console.log(result);
             history.push(ROUTES.BROWSE);
           });
       })
