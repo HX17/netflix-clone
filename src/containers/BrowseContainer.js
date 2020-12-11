@@ -1,14 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 
 import ProfileContainer from "./ProfileContainer";
 import Loading from "../components/loading";
 import Header from "../components/header";
 import * as ROUTES from "../constants/routes";
-import Profile from "../components/profile";
+import { FirebaseContext } from "../context/firebase";
 
 const BrowseContainer = ({ slides }) => {
+  const { firebase } = useContext(FirebaseContext);
+
   const [profile, setProfile] = useState({});
   const [loading, setLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState("");
   const user = JSON.parse(localStorage.getItem("authUser"));
 
   useEffect(() => {
@@ -35,12 +38,23 @@ const BrowseContainer = ({ slides }) => {
           </Header.Group>
 
           <Header.Group>
+            <Header.Search
+              searchTerm={searchTerm}
+              setSearchTerm={setSearchTerm}
+            />
+
             <Header.Profile>
               <Header.Picture src={user.photoURL} />
               <Header.Dropdown>
                 <Header.Group>
                   <Header.Picture src={user.photoURL} />
                   <Header.TextLink>{user.displayName}</Header.TextLink>
+                </Header.Group>
+
+                <Header.Group>
+                  <Header.TextLink onClick={() => firebase.auth().signOut()}>
+                    Sign Out
+                  </Header.TextLink>
                 </Header.Group>
               </Header.Dropdown>
             </Header.Profile>
@@ -56,6 +70,7 @@ const BrowseContainer = ({ slides }) => {
             he projects in a futile attempt to feel like he's part of the world
             around him.
           </Header.Text>
+          <Header.PlayButton>Play</Header.PlayButton>
         </Header.Feature>
       </Header>
     </>

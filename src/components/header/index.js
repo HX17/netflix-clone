@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
 import {
@@ -14,6 +14,10 @@ import {
   Picture,
   Profile,
   Dropdown,
+  Search,
+  SearchIcon,
+  SearchInput,
+  PlayButton,
 } from "./styles/header";
 
 const Header = ({ bg = true, children, ...restProps }) => {
@@ -66,6 +70,32 @@ Header.Profile = ({ children, ...restProps }) => {
 
 Header.Dropdown = ({ children, ...restProps }) => {
   return <Dropdown {...restProps}>{children}</Dropdown>;
+};
+
+Header.Search = ({ searchTerm, setSearchTerm, ...restProps }) => {
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const [searchActive, setSearchActive] = useState(false);
+
+  return (
+    <Search {...restProps}>
+      <SearchIcon
+        onClick={() => setSearchActive((searchActive) => !searchActive)}
+      >
+        <img src="/images/icons/search.png" alt="Search" />
+      </SearchIcon>
+      <SearchInput
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+        placeholder="Search films and series"
+        type="text"
+        active={searchActive}
+      />
+    </Search>
+  );
+};
+
+Header.PlayButton = ({ children, ...restProps }) => {
+  return <PlayButton {...restProps}>{children}</PlayButton>;
 };
 
 export default Header;
