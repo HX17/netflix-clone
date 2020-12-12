@@ -11,6 +11,7 @@ const Browse = () => {
 
   // TODO: we need slides
   const slides = selectionFilter({ series, films });
+
   // TODO: pass it to the browse container
 
   return <BrowseContainer slides={slides} />;

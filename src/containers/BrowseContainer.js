@@ -1,25 +1,49 @@
 import React, { useState, useEffect, useContext } from "react";
+import Fuse from "fuse.js";
 
 import ProfileContainer from "./ProfileContainer";
 import Loading from "../components/loading";
 import Header from "../components/header";
+import Card from "../components/card";
+import Player from "../components/player";
+import FooterContainer from "../containers/FooterContainer";
 import * as ROUTES from "../constants/routes";
 import { FirebaseContext } from "../context/firebase";
 
 const BrowseContainer = ({ slides }) => {
-  const { firebase } = useContext(FirebaseContext);
-
+  const [category, setCategory] = useState("series");
   const [profile, setProfile] = useState({});
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
+  const [slideRows, setSlideRows] = useState([]);
+
+  const { firebase } = useContext(FirebaseContext);
   const user = JSON.parse(localStorage.getItem("authUser"));
 
   useEffect(() => {
-    console.log("profile", profile);
     setTimeout(() => {
       setLoading(false);
     }, 3000);
   }, [profile]);
+
+  useEffect(() => {
+    setSlideRows(slides[category]);
+  }, [slides, category]);
+
+  useEffect(() => {
+    const fuse = new Fuse(slideRows, {
+      // searching range
+      keys: ["data.description", "data.title", "data.genre"],
+    });
+
+    const results = fuse.search(searchTerm).map(({ item }) => item);
+
+    if (slideRows.length > 0 && searchTerm.length > 3 && results.length > 0) {
+      setSlideRows(results);
+    } else {
+      setSlideRows(slides[category]);
+    }
+  }, [searchTerm]);
 
   return profile.displayName ? (
     <>
@@ -33,8 +57,18 @@ const BrowseContainer = ({ slides }) => {
               src="/images/logo.png"
               alt="Netflix"
             />
-            <Header.TextLink>Films</Header.TextLink>
-            <Header.TextLink>Series</Header.TextLink>
+            <Header.TextLink
+              active={category === "films" ? "true" : "false"}
+              onClick={() => setCategory("films")}
+            >
+              Films
+            </Header.TextLink>
+            <Header.TextLink
+              active={category === "series" ? "true" : "false"}
+              onClick={() => setCategory("series")}
+            >
+              Series
+            </Header.TextLink>
           </Header.Group>
 
           <Header.Group>
@@ -73,6 +107,34 @@ const BrowseContainer = ({ slides }) => {
           <Header.PlayButton>Play</Header.PlayButton>
         </Header.Feature>
       </Header>
+
+      <Card.Group>
+        {slideRows.map((row) => (
+          <Card key={`${category}-${row.title.toLowerCase()}`}>
+            <Card.Title>{row.title}</Card.Title>
+            <Card.Entities>
+              {row.data.map((item) => (
+                <Card.Item key={item.docId} item={item}>
+                  <Card.Image
+                    src={`/images/${category}/${item.genre}/${item.slug}/small.jpg`}
+                  />
+                  <Card.Meta>
+                    <Card.SubTitle>{item.title}</Card.SubTitle>
+                    <Card.Text>{item.description}</Card.Text>
+                  </Card.Meta>
+                </Card.Item>
+              ))}
+            </Card.Entities>
+            <Card.Feature category={category}>
+              <Player>
+                <Player.Button />
+                <Player.Video src="/videos/bunny.mp4" />
+              </Player>
+            </Card.Feature>
+          </Card>
+        ))}
+      </Card.Group>
+      <FooterContainer />
     </>
   ) : (
     <ProfileContainer user={user} setProfile={setProfile} />
