@@ -41,7 +41,7 @@ const Signin = () => {
     <>
       <HeaderContainer>
         <Form>
-          <Form.Title>Sign In</Form.Title>
+          <Form.Title>Sign in</Form.Title>
           {error && <Form.Error>{error}</Form.Error>}
           <Form.Base onSubmit={signInHandler} method="POST">
             <Form.Input

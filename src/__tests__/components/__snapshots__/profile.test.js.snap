@@ -1,0 +1,61 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Profile /> renders <Profile /> with populated data but misc profile image 1`] = `
+<div
+  class="profile__Container-g30w1w-0 jFTqkz"
+>
+  <h1
+    class="profile__Title-g30w1w-1 fA-DMvd"
+  >
+    Who's watching?
+  </h1>
+  <ul
+    class="profile__List-g30w1w-2 dRnJLM"
+  >
+    <li
+      class="profile__User-g30w1w-5 knXlGS"
+    >
+      <img
+        class="profile__Picture-g30w1w-4 fERxgX"
+        data-testid="profile-picture-misc"
+        src="/images/misc/loading.gif"
+      />
+      <p
+        class="profile__Name-g30w1w-3 hdArAc"
+      >
+        Xiang Hou
+      </p>
+    </li>
+  </ul>
+</div>
+`;
+
+exports[`<Profile /> renders the <Profile /> with populated data 1`] = `
+<div
+  class="profile__Container-g30w1w-0 jFTqkz"
+>
+  <h1
+    class="profile__Title-g30w1w-1 fA-DMvd"
+  >
+    Who's watching?
+  </h1>
+  <ul
+    class="profile__List-g30w1w-2 dRnJLM"
+  >
+    <li
+      class="profile__User-g30w1w-5 knXlGS"
+    >
+      <img
+        class="profile__Picture-g30w1w-4 fERxgX"
+        data-testid="profile-picture"
+        src="/images/users//images/movie.png.png"
+      />
+      <p
+        class="profile__Name-g30w1w-3 hdArAc"
+      >
+        Xiang Hou
+      </p>
+    </li>
+  </ul>
+</div>
+`;
